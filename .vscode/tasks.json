@@ -5,6 +5,7 @@
             "label": "Arquivo main corrente",
             "command": "/usr/bin/g++",
             "args": [
+                "-std=c++20",
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
