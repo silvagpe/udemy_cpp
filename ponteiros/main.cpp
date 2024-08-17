@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 
@@ -134,6 +135,41 @@ void exemploContactenarStrings(){
     cout << "Resultado :" << myContact(nome, sobreNome) << "\n";
 }
 
+void exemploDeApontamentoDeMemoria()
+{
+    int var = 10;
+    int *p1, *p2;
+
+    p1 = &var;
+    p2 = &var;
+
+    // A saída desses cout será o mesmo endereço de memória
+    cout << p1 << endl;
+    cout << p2 << endl;
+    cout << &var << endl;
+
+    if (p1 == p2)
+        cout << "p1 aponta para o mesmo endereço de p2" << endl;
+
+    // Isso quer dizer que se alterar qualquer um das 3 variáveis ele será refletida em todos os apontamentos
+    *p1 = 1;
+    cout << "Valore de p1: " << *p1 << " valor de p2: " << *p2 << " valor de var: " << var << endl;
+}
+
+void exemplo2ComVetores()
+{
+    int vet[] = {1, 2, 3};
+    int *p1 = &vet[0], *p2 = &vet[1];
+
+    // Endereço de memória
+    cout << p1 << endl;
+    cout << p2 << endl;
+
+    if (p1 < p2)
+    {
+        cout << "p1 é menor (vem antes) que p2" << endl;
+    }
+}
 
 int main(int argc, char const *argv[])
 {

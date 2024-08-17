@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "C/C++: clang++ build and debug active file",
+            "name": "Ubuntu C/C++: build and debug active file",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}.o",
@@ -15,7 +15,24 @@
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",
-            "preLaunchTask": "Arquivo main corrente"            
-          }
+            "preLaunchTask": "Ubuntu-Arquivo main corrente",
+            "linux": {
+                "MIMode": "gdb",
+                "miDebuggerPath": "/usr/bin/gdb"
+            },
+        },
+        {
+            "name": "MacOS-C/C++: clang++ build and debug active file",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}.o",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "MACOS-Arquivo main corrente"
+        }
     ]
 }
