@@ -25,13 +25,13 @@
             "name": "server_debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}server_client/server/server.o",            
+            "program": "${workspaceFolder}/server_client/server/server.o",            
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": false,
-            "preLaunchTask": "Linux build server",
+            "preLaunchTask": "linux_build_server",
             "MIMode": "lldb",
             "linux": {
                 "MIMode": "gdb",
@@ -42,13 +42,13 @@
             "name": "client_debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}server_client/client/client.o",            
+            "program": "${workspaceFolder}/server_client/client/client.o",            
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": false,
-            "preLaunchTask": "Linux build client",
+            "preLaunchTask": "linux_build_client",
             "MIMode": "lldb",
             "linux": {
                 "MIMode": "gdb",
@@ -72,10 +72,11 @@
     ],
     "compounds": [
         {
-            "name": "ServerAndClient",
+            "name": "ClientAnd",
             "preLaunchTask": "",
             "configurations": [
-                "server_debug"
+                "server_debug",
+                "client_debug"
             ]
         }
     ]
