@@ -22,6 +22,40 @@
             },
         },
         {
+            "name": "server_debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}server_client/server/server.o",            
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "preLaunchTask": "Linux build server",
+            "MIMode": "lldb",
+            "linux": {
+                "MIMode": "gdb",
+                "miDebuggerPath": "/usr/bin/gdb"
+            },
+        },
+        {
+            "name": "client_debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}server_client/client/client.o",            
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "preLaunchTask": "Linux build client",
+            "MIMode": "lldb",
+            "linux": {
+                "MIMode": "gdb",
+                "miDebuggerPath": "/usr/bin/gdb"
+            },
+        },
+        {
             "name": "MacOS-C/C++: clang++ build and debug active file",
             "type": "cppdbg",
             "request": "launch",
@@ -33,6 +67,16 @@
             "externalConsole": true,
             "MIMode": "lldb",
             "preLaunchTask": "MACOS-Arquivo main corrente"
+        },
+        
+    ],
+    "compounds": [
+        {
+            "name": "ServerAndClient",
+            "preLaunchTask": "",
+            "configurations": [
+                "server_debug"
+            ]
         }
     ]
 }
