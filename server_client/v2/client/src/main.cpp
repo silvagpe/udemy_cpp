@@ -4,6 +4,13 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include "csv/csv_reader.h"
+
+namespace csv_client
+{
+    
+
+
 
 #define PORT 8080
 
@@ -19,6 +26,56 @@ std::vector<uint8_t> serialize_string(const std::string& str) {
     buffer.insert(buffer.end(), str.begin(), str.end());
 
     return buffer;
+}
+
+void log(const std::string &msg, const int &offset){
+    std::cout << msg << offset << std::endl;
+}
+void log(const std::string &msg){
+    std::cout << msg << std::endl;
+}
+void increment_offset(int &offset, int value){
+
+    std::cout << "Offset original: " << offset << std::endl;
+    offset+=value;
+    std::cout << "Offset final: " << offset << std::endl;
+}
+
+// Função para desserializar uma string
+std::string deserialize_string(const std::vector<uint8_t>& buffer, int& offset) {
+    // Pegar o tamanho da string (4 bytes)
+    int length = *reinterpret_cast<const int*>(&buffer[offset]);
+    log("deserialize length: ", length);
+    increment_offset(offset, sizeof(int));
+
+    // Pegar a string
+    std::string str(buffer.begin() + offset, buffer.begin() + offset + length);
+    increment_offset(offset, length);
+
+    log("deserialize str: " + str);
+
+    return str;
+}
+
+void receive_csv_data(std::vector<uint8_t> total_buffer) {
+    
+    // Primeiro, ler o tamanho do payload
+    int offset = 0;
+    int payload_size = *reinterpret_cast<int*>(&total_buffer[offset]);
+    std::cout << "Tamanho payload: " << payload_size << std::endl;
+    increment_offset(offset, sizeof(int));
+    
+
+    int num_fields = *reinterpret_cast<int*>(&total_buffer[offset]);
+    std::cout << "Número de campos: " << num_fields << std::endl;
+    increment_offset(offset, sizeof(int));    
+
+    // Desserializar cada campo
+    for (int i = 0; i < num_fields; i++) {        
+        std::string field = deserialize_string(total_buffer, offset);
+        std::cout << "Campo " << i + 1 << ": " << field << std::endl;        
+    }
+
 }
 
 // Função para enviar uma linha CSV genérica
@@ -43,14 +100,31 @@ void send_csv_data(int sock, const std::vector<std::string>& fields) {
     // Adicionar o buffer completo (header + payload)
     total_buffer.insert(total_buffer.end(), buffer.begin(), buffer.end());
 
+
+    log("Total buffer:", total_buffer.size());
+    for (int i = 0; i < total_buffer.size(); i++) {          
+        std::cout << i << " :" << total_buffer[i] << std::endl;        
+    }
+
     // Enviar os dados ao servidor
-    send(sock, total_buffer.data(), total_buffer.size(), 0);
-    std::cout << "Dados CSV enviados ao servidor" << std::endl;
+    //send(sock, total_buffer.data(), total_buffer.size(), 0);
+    //std::cout << "Dados CSV enviados ao servidor" << std::endl;
+    receive_csv_data(total_buffer);
 }
+
+} // namespace name
 
 int main() {
     int sock = 0;
     struct sockaddr_in serv_addr;
+
+    csv_client::csv::csv_reader::CsvReader reader;
+    reader.openFile();
+    
+
+    
+
+    exit(0);
 
     // Linha CSV genérica
     std::vector<std::string> csv_data = {
@@ -79,10 +153,11 @@ int main() {
     }
 
     // Enviar linha CSV como dados binários
-    send_csv_data(sock, csv_data);
+    csv_client::send_csv_data(sock, csv_data);
 
     // Fechar o socket
     close(sock);
 
     return 0;
 }
+
